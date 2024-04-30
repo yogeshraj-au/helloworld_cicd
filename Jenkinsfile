@@ -77,8 +77,8 @@ pipeline {
         stage('Update Helm Values') {
             steps {
                 script {
-                    sh "sleep 5000"
-                    def valuesFile = "/var/jenkins_home/workspace/nginx/hello_world_cicd/charts/nginx-hello-world/values.yaml"
+                    //sh "sleep 5000"
+                    def valuesFile = "/var/jenkins_home/workspace/nginx/charts/nginx-hello-world/values.yaml"
                     def helmValues = readYaml file: valuesFile
 
                     // Update tag for nginxhello image
