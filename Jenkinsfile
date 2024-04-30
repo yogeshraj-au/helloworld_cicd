@@ -82,8 +82,16 @@ pipeline {
                      // Check if the file exists
                     def valuesFile = "${WORKSPACE}/charts/nginx-hello-world/values.yaml"
 
-                    // Delete existing values.yaml file if it exists
-                    deleteFile file: valuesFile, failOnError: false
+                    // Create a File object
+                    def file = new File(valuesFile)
+
+                    // Check if the file exists
+                    if (file.exists()) {
+                        echo "File $valuesFile exists. Deleting..."
+
+                        // Delete the file
+                        file.delete()
+                    }
 
                     // Read existing YAML data (if needed)
                     def helmValues = readYaml file: valuesFile
