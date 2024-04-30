@@ -70,8 +70,8 @@ pipeline {
 
         stage('Update Helm Values') {
             steps {
+                git branch: 'main', url: "https://github.com/yogeshraj-au/hello_world_cicd.git"
                 script {
-                    git branch: 'main', url: "https://github.com/yogeshraj-au/hello_world_cicd.git"
                     def valuesFile = "/var/jenkins_home/workspace/nginx/hello_world_cicd/charts/nginx-hello-world/values.yaml"
                     def helmValues = readYaml file: valuesFile
 
