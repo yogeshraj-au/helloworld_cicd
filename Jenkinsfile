@@ -68,6 +68,12 @@ pipeline {
             }
         }
 
+        stage('clone cicd repo') {
+            steps {
+                git branch: 'main', url: "https://github.com/yogeshraj-au/helloworld_cicd.git"
+            }
+        }
+
         stage('Update Helm Values') {
             steps {
                 script {
