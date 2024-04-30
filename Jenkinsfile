@@ -67,6 +67,30 @@ pipeline {
                 }
             }
         }
+
+        stage('Update Helm Values') {
+            steps {
+                script {
+                    def valuesFile = "charts/nginx-hello-world/values.yaml"
+                    def helmValues = readYaml file: valuesFile
+
+                    // Update tag for nginxhello image
+                    helmValues.nginxhello.image.tag = "${env.BUILD_NUMBER}" // Update the tag as needed
+
+                    // Write updated values back to values.yaml
+                    writeYaml file: valuesFile, data: helmValues
+                }
+            }
+        }
+
+        stage('Package Helm Chart') {
+            steps {
+                script {
+                    // Package Helm chart after updating values
+                    sh "helm package charts/${env.HELM_CHART_NAME}"
+                }
+            }
+        }
     }
     
     post {
@@ -78,4 +102,3 @@ pipeline {
         }
     }
 }
-
