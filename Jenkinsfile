@@ -71,7 +71,8 @@ pipeline {
         stage('Update Helm Values') {
             steps {
                 script {
-                    def valuesFile = "charts/nginx-hello-world/values.yaml"
+                    git branch: 'main', url: "https://github.com/yogeshraj-au/hello_world_cicd.git"
+                    def valuesFile = "/var/jenkins_home/workspace/nginx/hello_world_cicd/charts/nginx-hello-world/values.yaml"
                     def helmValues = readYaml file: valuesFile
 
                     // Update tag for nginxhello image
