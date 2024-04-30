@@ -19,9 +19,6 @@ pipeline {
                     
                 // Clone Repository 2
                 git branch: 'main', url: "https://github.com/yogeshraj-au/nginx_hello.git"
-                
-                // Clone CICD Repo
-                git branch: 'main', url: "https://github.com/yogeshraj-au/helloworld_cicd.git"
             }
         }
         
