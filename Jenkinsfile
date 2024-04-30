@@ -80,20 +80,19 @@ pipeline {
                 script {
                     //sh "sleep 5000"
                      // Check if the file exists
-                    if (fileExists(valuesFile)) {
-                        echo "File $valuesFile already exists. Updating values..."
+                    def valuesFile = "${WORKSPACE}/charts/nginx-hello-world/values.yaml"
 
-                        // Read existing YAML data
-                        def helmValues = readYaml file: "${WORKSPACE}/charts/nginx-hello-world/values.yaml", text: ''
+                    // Delete existing values.yaml file if it exists
+                    deleteFile file: valuesFile, failOnError: false
 
-                        // Update tag for nginxhello image
-                        helmValues.nginxhello.image.tag = "${env.BUILD_NUMBER}"  // Update the tag as needed
+                    // Read existing YAML data (if needed)
+                    def helmValues = readYaml file: valuesFile
 
-                        // Write updated values back to values.yaml
-                        writeYaml file: "${WORKSPACE}/charts/nginx-hello-world/values.yaml", data: helmValues
-                    } else {
-                        error "File $valuesFile does not exist!"
-                    }
+                    // Update tag for nginxhello image
+                    helmValues.nginxhello.image.tag = "${env.BUILD_NUMBER}" // Update the tag as needed
+
+                    // Write updated values back to values.yaml
+                    writeYaml file: valuesFile, data: helmValues
                 }
             }
         }
