@@ -84,13 +84,13 @@ pipeline {
                         echo "File $valuesFile already exists. Updating values..."
 
                         // Read existing YAML data
-                        def helmValues = readYaml file: "/var/jenkins_home/workspace/nginx/charts/nginx-hello-world/values.yaml"
+                        def helmValues = readYaml file: "${WORKSPACE}/charts/nginx-hello-world/values.yaml", text: ''
 
                         // Update tag for nginxhello image
                         helmValues.nginxhello.image.tag = "${env.BUILD_NUMBER}"  // Update the tag as needed
 
                         // Write updated values back to values.yaml
-                        writeYaml file: "/var/jenkins_home/workspace/nginx/charts/nginx-hello-world/values.yaml", data: helmValues
+                        writeYaml file: "${WORKSPACE}/charts/nginx-hello-world/values.yaml", data: helmValues
                     } else {
                         error "File $valuesFile does not exist!"
                     }
